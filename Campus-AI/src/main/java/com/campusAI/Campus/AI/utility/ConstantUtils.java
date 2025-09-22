@@ -1,0 +1,6 @@
+package com.campusAI.Campus.AI.utility;
+
+public class ConstantUtils {
+    public static final long TOKEN_EXPIRATION_TIME = 1000 * 60 * 60;
+    public static final String INVALID_CREDENTIAL = "please fill the correct username and password";
+}
