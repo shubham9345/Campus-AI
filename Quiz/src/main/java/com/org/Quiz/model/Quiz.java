@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,6 +21,11 @@ public class Quiz {
     private Long quizId;
     private String topics_name;
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Question> quiz_question;
+    private List<Question> quiz_question = new ArrayList<>();
     private Long userId;
+
+    public void addQuestion(Question question) {
+        quiz_question.add(question);
+        question.setQuiz(this);
+    }
 }

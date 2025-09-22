@@ -6,8 +6,10 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class RoadmapServiceImpl {
+public class RoadmapServiceImpl implements RoadmapService {
     @Autowired
     private RoadmapRepository roadmapRepository;
     private final ChatClient chatClient;
@@ -30,4 +32,10 @@ public class RoadmapServiceImpl {
         roadmap.setUserId(userId);
         roadmapRepository.save(roadmap);
     }
+
+    @Override
+    public List<Roadmap> getRoadmapByUserId(Long userId) {
+        return roadmapRepository.findRoadmapByUserId(userId);
+    }
+
 }

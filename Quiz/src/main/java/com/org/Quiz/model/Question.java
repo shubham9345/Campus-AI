@@ -22,7 +22,7 @@ public class Question {
     private String question;
     private List<String> options;
     private String ans;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "quiz_id")
     @JsonIgnore
     private Quiz quiz;

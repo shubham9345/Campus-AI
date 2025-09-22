@@ -3,7 +3,11 @@ package com.org.Quiz.controller;
 import com.org.Quiz.model.Quiz;
 import com.org.Quiz.service.QuizServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/quiz")
@@ -19,5 +23,10 @@ public class QuizController {
             quizServiceImpl.saveQuiz(generatedQuizes, userId);
         }
         return generatedQuizes;
+    }
+    @GetMapping("/all-quiz/{userId}")
+    public ResponseEntity<List<Quiz>> getAllRoadmap(@PathVariable Long userId){
+        List<Quiz> allQuiz = quizServiceImpl.getQuizByUserId(userId);
+        return new ResponseEntity<>(allQuiz, HttpStatus.OK);
     }
 }

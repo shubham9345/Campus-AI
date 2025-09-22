@@ -7,6 +7,8 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class QuizServiceImpl implements QuizService{
     private final ChatClient chatClient;
@@ -25,9 +27,25 @@ public class QuizServiceImpl implements QuizService{
                 .call()
                 .entity(Quiz.class);
     }
+    @Override
     public void saveQuiz(Quiz quiz, Long userId) {
-        quiz.setQuizId(null);
         quiz.setUserId(userId);
+
+        quiz.setQuizId(null);
+
+        if (quiz.getQuiz_question() != null) {
+            quiz.getQuiz_question().forEach(q -> {
+                q.setQId(null);
+                q.setQuiz(quiz);
+            });
+        }
+
         quizRepository.save(quiz);
+    }
+
+
+    @Override
+    public List<Quiz> getQuizByUserId(Long userId) {
+        return quizRepository.findQuizByUserId(userId);
     }
 }
