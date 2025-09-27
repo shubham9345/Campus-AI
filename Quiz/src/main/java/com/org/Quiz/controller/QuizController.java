@@ -11,14 +11,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/quiz")
+@CrossOrigin(origins = "http://localhost:8083")
 public class QuizController {
 
     @Autowired
     private QuizServiceImpl quizServiceImpl;
 
     @GetMapping("/{userId}")
-    public Quiz generateQuiz(@RequestParam String topic, @RequestParam(defaultValue = "false") boolean save, @PathVariable Long userId) {
-        Quiz generatedQuizes = quizServiceImpl.getQuizQuestions(topic);
+    public Quiz generateQuiz(@RequestParam String topic, @RequestParam(defaultValue = "false") boolean save,@RequestParam int num, @PathVariable Long userId) {
+        Quiz generatedQuizes = quizServiceImpl.getQuizQuestions(topic,num);
         if (save) {
             quizServiceImpl.saveQuiz(generatedQuizes, userId);
         }
@@ -28,5 +29,9 @@ public class QuizController {
     public ResponseEntity<List<Quiz>> getAllRoadmap(@PathVariable Long userId){
         List<Quiz> allQuiz = quizServiceImpl.getQuizByUserId(userId);
         return new ResponseEntity<>(allQuiz, HttpStatus.OK);
+    }
+    @DeleteMapping("/delete/{quizId}")
+    public String deleteQuiz(@PathVariable Long  quizId){
+           return quizServiceImpl.deleteQuiz(quizId);
     }
 }

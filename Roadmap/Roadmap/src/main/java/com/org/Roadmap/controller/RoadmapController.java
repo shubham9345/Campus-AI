@@ -28,4 +28,8 @@ public class RoadmapController {
         List<Roadmap> allRoadmap = roadmapService.getRoadmapByUserId(userId);
         return new ResponseEntity<>(allRoadmap, HttpStatus.OK);
     }
+    @DeleteMapping("/delete/{roadmapId}")
+    public String deleteQuiz(@PathVariable Long  roadmapId){
+        return roadmapService.deleteRoadmap(roadmapId);
+    }
 }

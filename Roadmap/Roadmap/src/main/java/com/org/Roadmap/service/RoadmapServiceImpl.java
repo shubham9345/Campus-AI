@@ -38,4 +38,12 @@ public class RoadmapServiceImpl implements RoadmapService {
         return roadmapRepository.findRoadmapByUserId(userId);
     }
 
+    @Override
+    public String deleteRoadmap(Long roadmapId) {
+        if(!roadmapRepository.existsById(roadmapId)){
+            throw new RuntimeException("Roadmap is not found with roadmapId " + roadmapId);
+        }
+        roadmapRepository.deleteById(roadmapId);
+        return "Roadmap is deleted successfully with roadmapId --> " + roadmapId;
+    }
 }

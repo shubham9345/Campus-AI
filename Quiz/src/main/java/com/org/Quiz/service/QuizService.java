@@ -7,4 +7,5 @@ import java.util.List;
 public interface QuizService {
     public void saveQuiz(Quiz quiz, Long userId);
     public List<Quiz> getQuizByUserId(Long userId);
+    public String deleteQuiz(Long quizId);
 }

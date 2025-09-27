@@ -8,6 +8,8 @@ import com.campusAI.Campus.AI.security.JwtResponse;
 import com.campusAI.Campus.AI.security.JwtUtil;
 import com.campusAI.Campus.AI.services.CustomUserDetailService;
 import com.campusAI.Campus.AI.services.UserInfoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +26,7 @@ import static com.campusAI.Campus.AI.utility.ConstantUtils.INVALID_CREDENTIAL;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:8083")
 public class AuthController {
     @Autowired
     private UserInfoService userInfoService;
@@ -36,7 +38,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserInfoRepository userInfoRepository;
-
+    @Operation
     @PostMapping("/signup")
     public ResponseEntity<UserInfo> Signup(@RequestBody UserInfo userInfo) {
         try {
@@ -92,5 +94,15 @@ public class AuthController {
             throw new RuntimeException("no user is found");
         }
         return new ResponseEntity<>(allUser, HttpStatus.OK);
+    }
+    @GetMapping("/profile/{Id}")
+    public ResponseEntity<UserInfo> getUserById(@PathVariable Long Id) {
+        UserInfo userInfo = userInfoService.getUserbyId(Id);
+        return new ResponseEntity<>(userInfo, HttpStatus.OK);
+    }
+    @DeleteMapping("delete/{userId}")
+    public ResponseEntity<String> deleteUserById(@PathVariable Long userId) {
+        String mess = userInfoService.deleteUserById(userId);
+        return new ResponseEntity<>(mess, HttpStatus.OK);
     }
 }

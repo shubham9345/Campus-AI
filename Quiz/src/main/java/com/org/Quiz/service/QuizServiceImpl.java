@@ -19,10 +19,10 @@ public class QuizServiceImpl implements QuizService{
         this.chatClient = builder.build();
     }
 
-    public Quiz getQuizQuestions(String topic) {
+    public Quiz getQuizQuestions(String topic, int no_of_question) {
         return chatClient
                 .prompt()
-                .user("Give me the 2 questions for " + topic +
+                .user("Give me the " + no_of_question +  "questions for " + topic +
                         " in JSON format with fields: topics_name,inside list of quiz_question each have fields question_no, List of options , answer of that question")
                 .call()
                 .entity(Quiz.class);
@@ -47,5 +47,14 @@ public class QuizServiceImpl implements QuizService{
     @Override
     public List<Quiz> getQuizByUserId(Long userId) {
         return quizRepository.findQuizByUserId(userId);
+    }
+
+    @Override
+    public String deleteQuiz(Long quizId) {
+        if(!quizRepository.existsById(quizId)){
+            throw new RuntimeException("quiz is not found with quizId " + quizId);
+        }
+        quizRepository.deleteById(quizId);
+        return "quiz is deleted successfully with quizId --> " + quizId;
     }
 }
